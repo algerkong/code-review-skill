@@ -1,77 +1,76 @@
-# Code Review Skill / 代码审查技能
+# Code Review Skill
 
-A comprehensive, AI-powered code review skill for Claude that generates structured reports with persistent history tracking.
+**[中文文档](./README_ZH.md)**
 
-一个为 Claude 打造的全面 AI 代码审查技能，生成结构化报告并持久追踪审查历史。
+A comprehensive, AI-powered code review skill that generates structured reports with persistent history tracking. Compatible with any AI development tool that supports the skill format (e.g., Claude, Cursor, Windsurf, Cline, etc.).
 
 ---
 
-## Features / 功能特性
+## Features
 
-### 5 Review Modes / 5 种审查模式
+### 5 Review Modes
 
-| Mode | Description | 模式 | 说明 |
-|------|-------------|------|------|
-| **project** | Full repository review — architecture, cross-cutting concerns, dependency health | **项目** | 全仓库审查 — 架构、横切关注点、依赖健康度 |
-| **module** | Directory/package review — cohesion, API surface, boundaries | **模块** | 目录/包审查 — 内聚性、API 接口、模块边界 |
-| **file** | Single file review — line-level detail, logic, style | **文件** | 单文件审查 — 行级细节、逻辑、风格 |
-| **diff** | PR/branch diff review — focused on changes | **差异** | PR/分支差异审查 — 聚焦变更内容 |
-| **issue** | Issue-targeted review — does the code solve the problem? | **问题** | 针对特定 Issue 审查 — 代码是否解决了问题？ |
+| Mode | Description |
+|------|-------------|
+| **project** | Full repository review — architecture, cross-cutting concerns, dependency health |
+| **module** | Directory/package review — cohesion, API surface, boundaries |
+| **file** | Single file review — line-level detail, logic, style |
+| **diff** | PR/branch diff review — focused on changes |
+| **issue** | Issue-targeted review — does the code solve the problem? |
 
-### 6 Review Dimensions / 6 个审查维度
+### 6 Review Dimensions
 
-- **Logic & Correctness** / 逻辑正确性 — Edge cases, race conditions, error handling
-- **Security (OWASP-Aligned)** / 安全性（OWASP 对齐）— Injection, auth, data exposure, secrets
-- **Performance** / 性能 — N+1 queries, resource leaks, algorithmic complexity
-- **Architecture & Design** / 架构设计 — Coupling, abstractions, SOLID principles
-- **Maintainability** / 可维护性 — Naming, function size, test coverage, consistency
-- **Project-Level Concerns** / 项目级关注 — Dependencies, CI/CD, configuration, documentation
+- **Logic & Correctness** — Edge cases, race conditions, error handling, state management
+- **Security (OWASP-Aligned)** — Injection, auth, data exposure, secrets, CSRF/SSRF
+- **Performance** — N+1 queries, resource leaks, algorithmic complexity, caching
+- **Architecture & Design** — Coupling, abstractions, SOLID principles, API design
+- **Maintainability** — Naming, function size, test coverage, consistency
+- **Project-Level Concerns** — Dependencies, CI/CD, configuration, documentation
 
-### Report System / 报告系统
+### Report System
 
 All reports are stored in the `.review/` directory at the project root:
 
-所有报告存储在项目根目录的 `.review/` 文件夹中：
-
 ```
 .review/
-├── history.json                          # Review history index / 审查历史索引
+├── history.json                          # Review history index
 ├── reports/
-│   ├── 2026-03-12_project_full.md       # Project review / 项目审查
-│   ├── 2026-03-12_module_src-api.md     # Module review / 模块审查
-│   ├── 2026-03-12_file_utils-py.md      # File review / 文件审查
-│   ├── 2026-03-12_diff_feature-auth.md  # PR/Branch review / PR/分支审查
-│   └── 2026-03-12_issue_42.md           # Issue review / Issue审查
-└── snapshots/                            # Code snapshots / 代码快照
+│   ├── 2026-03-12_project_full.md       # Project review
+│   ├── 2026-03-12_module_src-api.md     # Module review
+│   ├── 2026-03-12_file_utils-py.md      # File review
+│   ├── 2026-03-12_diff_feature-auth.md  # PR/Branch review
+│   └── 2026-03-12_issue_42.md           # Issue review
+└── snapshots/                            # Code snapshots for diff tracking
 ```
 
-Key features of the report system / 报告系统核心特性:
+Key features:
 
-- **History tracking** / 历史追踪: Every review is indexed in `history.json` with timestamps, scope, and finding summaries
-- **Previous review comparison** / 前次审查对比: Before each new review, the system reads the last report for the same scope and compares findings — marking resolved, new, and recurring issues
-- **Severity classification** / 严重级别分类: Critical (🔴), High (🟠), Medium (🟡), Low (🔵), Info (⚪)
-- **Confidence scoring** / 置信度评分: Only findings with confidence ≥ 70 are included — reducing false positives
+- **History tracking**: Every review is indexed in `history.json` with timestamps, scope, and finding summaries
+- **Previous review comparison**: Before each new review, the system reads the last report for the same scope and compares findings — marking resolved, new, and recurring issues
+- **Severity classification**: Critical (🔴), High (🟠), Medium (🟡), Low (🔵), Info (⚪)
+- **Confidence scoring**: Only findings with confidence ≥ 70 are included, reducing false positives
 
-### Severity Levels / 严重级别
+### Severity Levels
 
 | Level | Icon | Meaning | Action |
 |-------|------|---------|--------|
-| Critical | 🔴 | Security vulnerability, data loss, production crash | Must fix before deploy / 部署前必须修复 |
-| High | 🟠 | Significant bug, performance issue, auth gap | Fix soon / 尽快修复 |
-| Medium | 🟡 | Logic smell, missing edge case, poor error message | Fix when convenient / 方便时修复 |
-| Low | 🔵 | Style inconsistency, naming, minor refactor | Nice to have / 锦上添花 |
-| Info | ⚪ | Observation, praise for good patterns | No action / 无需操作 |
+| Critical | 🔴 | Security vulnerability, data loss, production crash | Must fix before deploy |
+| High | 🟠 | Significant bug, performance issue, auth gap | Fix soon |
+| Medium | 🟡 | Logic smell, missing edge case, poor error message | Fix when convenient |
+| Low | 🔵 | Style inconsistency, naming, minor refactor | Nice to have |
+| Info | ⚪ | Observation, praise for good patterns | No action needed |
 
 ---
 
-## Project Structure / 项目结构
+## Project Structure
 
 ```
 .
-├── README.md
+├── README.md                     # English documentation (this file)
+├── README_ZH.md                  # Chinese documentation
 ├── LICENSE
 ├── skills/
-│   ├── code-review/              # English version / 英文版
+│   ├── code-review/              # English version
 │   │   ├── SKILL.md
 │   │   ├── references/
 │   │   │   ├── review-checklist.md
@@ -82,103 +81,83 @@ Key features of the report system / 报告系统核心特性:
 │   │   │   └── report_generator.py
 │   │   └── assets/
 │   │       └── report_template.md
-│   └── code-review-zh/           # Chinese version / 中文版
+│   └── code-review-zh/           # Chinese version
 │       ├── SKILL.md
 │       ├── references/
-│       │   ├── review-checklist.md
-│       │   └── security-checklist.md
 │       ├── scripts/
-│       │   ├── review_history.py
-│       │   ├── diff_analyzer.py
-│       │   └── report_generator.py
 │       └── assets/
-│           └── report_template.md
 ```
 
 ---
 
-## Installation / 安装
+## Installation
 
-### As a Claude Skill / 作为 Claude 技能安装
-
-Choose the language version you prefer / 选择你偏好的语言版本：
-
-- **English**: Copy `skills/code-review/` to your Claude skills folder
-- **中文**: 将 `skills/code-review-zh/` 复制到你的 Claude 技能文件夹
+Choose your preferred language version and copy it into your tool's skill directory:
 
 ```bash
 # English
-cp -r skills/code-review/ ~/.claude/skills/code-review/
+cp -r skills/code-review/ <your-tool-skills-directory>/code-review/
 
-# 中文
-cp -r skills/code-review-zh/ ~/.claude/skills/code-review/
+# Chinese
+cp -r skills/code-review-zh/ <your-tool-skills-directory>/code-review/
 ```
 
-### From .skill Package / 从 .skill 包安装
+Common skill directory locations:
 
-Download the `.skill` file from the [Releases](../../releases) page, then install it in Claude Desktop's Skills settings.
+| Tool | Skill Directory |
+|------|----------------|
+| Claude Code | `~/.claude/skills/` |
+| Claude Desktop | Install via `.skill` package in Skills settings |
+| Cursor | `.cursor/skills/` in your project |
+| Windsurf | `.windsurf/skills/` in your project |
+| Other | Refer to your tool's documentation |
 
-从 [Releases](../../releases) 页面下载 `.skill` 文件，在 Claude Desktop 技能设置中安装。
+You can also download the `.skill` package from the [Releases](../../releases) page if your tool supports it.
 
 ---
 
-## Usage / 使用方法
+## Usage
 
-Once installed, just tell Claude what you want to review / 安装后，直接告诉 Claude 你想审查什么：
+Once installed, just describe what you want to review in natural language:
 
 ```
-# English
 "Review my project"
 "Review the auth module"
 "Review src/utils/helpers.ts"
 "Review the PR from feature-login branch"
 "Review the fix for issue #42"
-
-# 中文
-"审查整个项目"
-"审查 auth 模块"
-"审查 src/utils/helpers.ts 这个文件"
-"审查 feature-login 分支的 PR"
-"审查 issue #42 的修复代码"
-```
-
-### Check Review History / 查看审查历史
-
-```
 "Show me the review history"
 "What was flagged in the last review?"
-"查看审查历史"
-"上次审查发现了什么？"
 ```
 
 ---
 
-## Helper Scripts / 辅助脚本
+## Helper Scripts
 
 ### review_history.py
 
-Manages the `.review/` directory and `history.json` / 管理审查目录和历史记录：
+Manages the `.review/` directory and `history.json`:
 
 ```bash
-python scripts/review_history.py init <project_root>           # Initialize / 初始化
-python scripts/review_history.py latest <root> --mode project  # Get latest / 获取最近
-python scripts/review_history.py add <root> --report-path ...  # Add entry / 添加记录
-python scripts/review_history.py stats <root>                  # Show stats / 显示统计
+python scripts/review_history.py init <project_root>           # Initialize
+python scripts/review_history.py latest <root> --mode project  # Get latest
+python scripts/review_history.py add <root> --report-path ...  # Add entry
+python scripts/review_history.py stats <root>                  # Show stats
 ```
 
 ### diff_analyzer.py
 
-Analyzes git diffs for review / 分析 Git 差异用于审查：
+Analyzes git diffs for review:
 
 ```bash
-python scripts/diff_analyzer.py branch main feature-login     # Branch diff / 分支对比
-python scripts/diff_analyzer.py file-history src/auth.py       # File history / 文件历史
-python scripts/diff_analyzer.py summary                        # Repo summary / 仓库概览
+python scripts/diff_analyzer.py branch main feature-login     # Branch diff
+python scripts/diff_analyzer.py file-history src/auth.py       # File history
+python scripts/diff_analyzer.py summary                        # Repo summary
 ```
 
 ### report_generator.py
 
-Generates structured Markdown reports / 生成结构化 Markdown 报告：
+Generates structured Markdown reports:
 
 ```bash
 python scripts/report_generator.py generate --findings '...' --meta '...' --output report.md
@@ -187,24 +166,26 @@ python scripts/report_generator.py compare --current new.md --previous old.md
 
 ---
 
-## Language Support / 语言支持
+## Language Support
 
-The review checklist includes language-specific security guidance for / 审查清单包含以下语言的安全指南：
+The review checklist includes language-specific security guidance for:
 
 JavaScript/TypeScript, Python, Java/Kotlin, Go, Rust, C/C++, Ruby, PHP
 
 ---
 
-## License / 许可证
+## Compatibility
+
+This skill follows the standard SKILL.md format and works with any AI-powered development tool that supports skills. If your tool can read a `SKILL.md` file and execute helper scripts, this skill will work out of the box.
+
+---
+
+## License
 
 MIT License
 
 ---
 
-## Contributing / 贡献
+## Contributing
 
-Issues and PRs are welcome! / 欢迎提交 Issue 和 PR！
-
-If you find the review checklist missing important checks, or want to add support for more languages, feel free to contribute.
-
-如果你发现审查清单缺少重要检查项，或想添加更多语言支持，欢迎贡献。
+Issues and PRs are welcome! If you find the review checklist missing important checks, or want to add support for more languages, feel free to contribute.

@@ -2,7 +2,7 @@
 
 **[English](./README.md)**
 
-一个为 Claude 打造的全面 AI 代码审查技能，生成结构化报告并持久追踪审查历史。
+一个全面的 AI 代码审查技能，生成结构化报告并持久追踪审查历史。兼容所有支持技能格式的 AI 开发工具（如 Claude、Cursor、Windsurf、Cline 等）。
 
 ---
 
@@ -92,26 +92,33 @@
 
 ## 安装
 
-选择你偏好的语言版本：
-
-- **英文版**：`skills/code-review/`
-- **中文版**：`skills/code-review-zh/`
+选择你偏好的语言版本，复制到你的工具技能目录中：
 
 ```bash
 # 英文版
-cp -r skills/code-review/ ~/.claude/skills/code-review/
+cp -r skills/code-review/ <你的工具技能目录>/code-review/
 
 # 中文版
-cp -r skills/code-review-zh/ ~/.claude/skills/code-review/
+cp -r skills/code-review-zh/ <你的工具技能目录>/code-review/
 ```
 
-也可以从 [Releases](../../releases) 页面下载 `.skill` 包，在 Claude Desktop 技能设置中安装。
+常见技能目录位置：
+
+| 工具 | 技能目录 |
+|------|---------|
+| Claude Code | `~/.claude/skills/` |
+| Claude Desktop | 在技能设置中通过 `.skill` 包安装 |
+| Cursor | 项目中的 `.cursor/skills/` |
+| Windsurf | 项目中的 `.windsurf/skills/` |
+| 其他 | 请参考你的工具文档 |
+
+也可以从 [Releases](../../releases) 页面下载 `.skill` 包（如果你的工具支持）。
 
 ---
 
 ## 使用方法
 
-安装后，直接告诉 Claude 你想审查什么：
+安装后，用自然语言描述你想审查的内容：
 
 ```
 "审查整个项目"
@@ -164,6 +171,12 @@ python scripts/report_generator.py compare --current new.md --previous old.md
 审查清单包含以下编程语言的安全陷阱指南：
 
 JavaScript/TypeScript、Python、Java/Kotlin、Go、Rust、C/C++、Ruby、PHP
+
+---
+
+## 兼容性
+
+本技能遵循标准 SKILL.md 格式，可与任何支持技能的 AI 开发工具配合使用。只要你的工具能读取 `SKILL.md` 文件并执行辅助脚本，即可开箱即用。
 
 ---
 
