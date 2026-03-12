@@ -174,6 +174,28 @@ JavaScript/TypeScript, Python, Java/Kotlin, Go, Rust, C/C++, Ruby, PHP
 
 ---
 
+## Recommended: Fix Issues with Superpowers
+
+After running a code review and identifying issues, we recommend using [Superpowers](https://github.com/obra/superpowers) to systematically fix and optimize the problems found.
+
+Superpowers is a markdown-driven AI development methodology framework that includes battle-tested skills like systematic debugging, TDD, and structured refactoring. It pairs perfectly with this code review skill:
+
+1. **Run code review** — identify issues with severity and confidence scoring
+2. **Use Superpowers** — leverage its structured workflows to fix issues methodically
+
+```
+Code Review Skill          Superpowers
+┌──────────────┐          ┌──────────────────┐
+│  Scan code   │  ──────> │  Fix issues with │
+│  Find issues │          │  structured flow  │
+│  Generate    │          │  - Debugging      │
+│  report      │          │  - Refactoring    │
+└──────────────┘          │  - TDD            │
+                          └──────────────────┘
+```
+
+---
+
 ## Compatibility
 
 This skill follows the standard SKILL.md format and works with any AI-powered development tool that supports skills. If your tool can read a `SKILL.md` file and execute helper scripts, this skill will work out of the box.

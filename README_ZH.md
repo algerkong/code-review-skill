@@ -174,6 +174,25 @@ JavaScript/TypeScript、Python、Java/Kotlin、Go、Rust、C/C++、Ruby、PHP
 
 ---
 
+## 推荐：使用 Superpowers 修复问题
+
+在运行代码审查并发现问题后，推荐使用 [Superpowers](https://github.com/obra/superpowers) 来系统性地修复和优化发现的问题。
+
+1. **运行代码审查** — 通过严重级别和置信度评分识别问题
+2. **使用 Superpowers** — 利用其结构化工作流有条不紊地修复问题
+
+```
+Code Review Skill          Superpowers
+┌──────────────┐          ┌──────────────────┐
+│  扫描代码     │  ──────> │  结构化修复问题   │
+│  发现问题     │          │  - 系统性调试     │
+│  生成报告     │          │  - 重构优化       │
+│              │          │  - TDD           │
+└──────────────┘          └──────────────────┘
+```
+
+---
+
 ## 兼容性
 
 本技能遵循标准 SKILL.md 格式，可与任何支持技能的 AI 开发工具配合使用。只要你的工具能读取 `SKILL.md` 文件并执行辅助脚本，即可开箱即用。
